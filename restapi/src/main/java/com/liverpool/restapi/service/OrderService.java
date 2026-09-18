@@ -1,14 +1,17 @@
 package com.liverpool.restapi.service;
 
 import com.liverpool.restapi.dto.OrderDTO;
+import com.liverpool.restapi.dto.OrderItemDTO;
 import com.liverpool.restapi.repository.OrderRepository;
 import domain.Order;
+import domain.OrderItem;
 import domain.model.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService implements CrudService<Order> {
@@ -44,22 +47,50 @@ public class OrderService implements CrudService<Order> {
     public OrderDTO createOrder(OrderDTO orderDTO) {
         Order order = new Order(
                 orderDTO.getId(),
-                orderDTO.getImagePath(),
-                orderDTO.getTitle(),
-                orderDTO.getDescription()
+                orderDTO.getDate(),
+                mapToItemEntities(orderDTO.getProductsList()),
+                orderDTO.getTotal(),
+                orderDTO.getPaymentMethod(),
+                orderDTO.getDispatched()
         );
 
         Order saved = repository.save(order);
         return mapToDTO(saved);
     }
 
-    public OrderDTO updateOrder(int productId, OrderDTO orderDTO) {
-        Order order = repository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + productId));
+    public OrderDTO patchOrder(int orderId, OrderDTO orderDTO) {
+        Order order = repository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Pedido no encontrado: " + orderId));
 
-        order.setImagePath(orderDTO.getImagePath());
-        order.setTitle(orderDTO.getTitle());
-        order.setDescription(orderDTO.getDescription());
+        if (orderDTO.getDate() != null) {
+            order.setDate(orderDTO.getDate());
+        }
+        if (orderDTO.getProductsList() != null) {
+            order.setProductsList(mapToItemEntities(orderDTO.getProductsList()));
+        }
+        if (orderDTO.getTotal() != null) {
+            order.setTotal(orderDTO.getTotal());
+        }
+        if (orderDTO.getPaymentMethod() != null) {
+            order.setPaymentMethod(orderDTO.getPaymentMethod());
+        }
+        if (orderDTO.getDispatched() != null) {
+            order.setDispatched(orderDTO.getDispatched());
+        }
+
+        Order updated = repository.save(order);
+        return mapToDTO(updated);
+    }
+
+    public OrderDTO updateOrder(int orderId, OrderDTO orderDTO) {
+        Order order = repository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Pedido no encontrado: " + orderId));
+
+        order.setDate(orderDTO.getDate());
+        order.setProductsList(mapToItemEntities(orderDTO.getProductsList()));
+        order.setTotal(orderDTO.getTotal());
+        order.setPaymentMethod(orderDTO.getPaymentMethod());
+        order.setDispatched(orderDTO.getDispatched());
 
         Order updated = repository.save(order);
         return mapToDTO(updated);
@@ -72,9 +103,37 @@ public class OrderService implements CrudService<Order> {
     private OrderDTO mapToDTO(Order order) {
         OrderDTO dto = new OrderDTO();
         dto.setId(order.getId());
-        dto.setImagePath(order.getImagePath());
-        dto.setTitle(order.getTitle());
-        dto.setDescription(order.getDescription());
+        dto.setDate(order.getDate());
+        dto.setProductsList(mapToItemDTOs(order.getProductsList()));
+        dto.setTotal(order.getTotal());
+        dto.setPaymentMethod(order.getPaymentMethod());
+        order.setDispatched(order.getDispatched());
         return dto;
+    }
+
+    private List<OrderItem> mapToItemEntities(List<OrderItemDTO> items) {
+        return items.stream()
+                .map(i -> new OrderItem(
+                        i.getSku(),
+                        i.getQuantity(),
+                        i.getProductName(),
+                        i.getUnitPrice(),
+                        i.getTotalPrice()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    private List<OrderItemDTO> mapToItemDTOs(List<OrderItem> items) {
+        return items.stream()
+                .map(i -> {
+                    OrderItemDTO dto = new OrderItemDTO();
+                    dto.setSku(i.getSku());
+                    dto.setQuantity(i.getQuantity());
+                    dto.setProductName(i.getProductName());
+                    dto.setUnitPrice(i.getUnitPrice());
+                    dto.setTotalPrice(i.getTotalPrice());
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 }

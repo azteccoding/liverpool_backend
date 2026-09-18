@@ -1,6 +1,5 @@
 package domain;
 
-
 import com.mongodb.lang.NonNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,26 +7,28 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
-@Document(collection = "Product")
+@Document(collection = "Order")
 public class Order implements Serializable {
 
     @Id
     @NonNull
     private int id;
-    private String imagePath;
-    private String title;
-    private String description;
+    private String date;
+    private List<OrderItem> productsList;
+    private double total;
+    private String paymentMethod;
+    private Boolean dispatched;
 
-
-    public Order(int id, String imagePath, String title, String description) {
+    public Order(int id, String date, List<OrderItem> productsList, double total, String paymentMethod, Boolean dispatched) {
         this.id = id;
-        this.imagePath = imagePath;
-        this.title = title;
-        this.description = description;
+        this.date = date;
+        this.productsList = productsList;
+        this.total = total;
+        this.paymentMethod = paymentMethod;
+        this.dispatched = dispatched;
     }
-
-
 }

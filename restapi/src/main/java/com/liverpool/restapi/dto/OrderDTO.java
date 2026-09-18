@@ -3,11 +3,15 @@ package com.liverpool.restapi.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class OrderDTO {
     private int id;
-    private String imagePath;
-    private String title;
-    private String description;
+    private String date;
+    private List<OrderItemDTO> productsList;
+    private Double total;
+    private String paymentMethod;
+    private Boolean dispatched = false;
 }

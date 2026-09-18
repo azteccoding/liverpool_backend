@@ -18,27 +18,32 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
-    @GetMapping(value="/pedidos",produces = "application/json")
+
+    @GetMapping(value = "/pedidos", produces = "application/json")
     public List<Order> getOrders() {
-        return  orderService.getAllOrders();
+        return orderService.getAllOrders();
     }
 
     @PostMapping(value = "/pedido")
-    public ResponseEntity  saveOrder(@RequestBody OrderDTO orderDTO) {
-            OrderDTO created = orderService.createOrder(orderDTO);
-            return new ResponseEntity<>(created, HttpStatus.CREATED);
+    public ResponseEntity<OrderDTO> saveOrder(@RequestBody OrderDTO orderDTO) {
+        OrderDTO created = orderService.createOrder(orderDTO);
+        return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/modificar/pedido/{orderId}")
-    public ResponseEntity  updateOrder(@PathVariable int productId,@RequestBody OrderDTO orderDTO){
-        OrderDTO created = orderService.updateOrder(productId, orderDTO);
-        return new ResponseEntity(created,HttpStatus.OK);
-
+    public ResponseEntity<OrderDTO> updateOrder(@PathVariable int orderId, @RequestBody OrderDTO orderDTO) {
+        OrderDTO updated = orderService.updateOrder(orderId, orderDTO);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
+    @PatchMapping(value = "/modificar/pedido/{orderId}")
+    public ResponseEntity<OrderDTO> patchOrder(@PathVariable int orderId, @RequestBody OrderDTO orderDTO) {
+        OrderDTO updated = orderService.patchOrder(orderId, orderDTO);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
 
     @DeleteMapping(value = "/borrar/{orderId}")
-    public ResponseEntity  deleteOrder(@PathVariable int orderId){
+    public ResponseEntity<Map<String, String>> deleteOrder(@PathVariable int orderId) {
         orderService.deleteOrder(orderId);
 
         Map<String, String> response = new HashMap<>();
