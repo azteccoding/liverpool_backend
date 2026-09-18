@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ProductController {
@@ -35,11 +37,12 @@ public class ProductController {
     }
 
 
-    @DeleteMapping(value = "/{productId}")
+    @DeleteMapping(value = "/delete/{productId}")
     public ResponseEntity  deleteProduct(@PathVariable int productId){
 
-        productService.deleteProduct(productId);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Producto id:" + productId + " eliminado");
 
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
