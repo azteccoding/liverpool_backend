@@ -38,7 +38,7 @@ public class OrderService implements CrudService<Order> {
     }
 
     @Override
-    public List<Order> getAllOrders() {
+    public List<Order> getAll() {
         return repository.findAll();
     }
 
@@ -107,7 +107,7 @@ public class OrderService implements CrudService<Order> {
         dto.setProductsList(mapToItemDTOs(order.getProductsList()));
         dto.setTotal(order.getTotal());
         dto.setPaymentMethod(order.getPaymentMethod());
-        order.setDispatched(order.getDispatched());
+        dto.setDispatched(order.getDispatched());
         return dto;
     }
 

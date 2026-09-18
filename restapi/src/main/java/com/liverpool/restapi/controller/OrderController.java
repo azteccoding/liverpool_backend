@@ -21,7 +21,7 @@ public class OrderController {
 
     @GetMapping(value = "/pedidos", produces = "application/json")
     public List<Order> getOrders() {
-        return orderService.getAllOrders();
+        return orderService.getAll();
     }
 
     @PostMapping(value = "/pedido")
@@ -42,7 +42,7 @@ public class OrderController {
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/borrar/{orderId}")
+    @DeleteMapping(value = "/borrar/pedido/{orderId}")
     public ResponseEntity<Map<String, String>> deleteOrder(@PathVariable int orderId) {
         orderService.deleteOrder(orderId);
 
