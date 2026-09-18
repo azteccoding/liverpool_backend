@@ -8,12 +8,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Getter
 @Setter
 @Document(collection = "Product")
-public class Product implements Serializable {
+public class Order implements Serializable {
 
     @Id
     @NonNull
@@ -23,7 +22,7 @@ public class Product implements Serializable {
     private String description;
 
 
-    public Product(int id, String imagePath, String title, String description) {
+    public Order(int id, String imagePath, String title, String description) {
         this.id = id;
         this.imagePath = imagePath;
         this.title = title;

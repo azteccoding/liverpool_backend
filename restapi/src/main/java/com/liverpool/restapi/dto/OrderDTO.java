@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductDTO {
+public class OrderDTO {
     private int id;
     private String imagePath;
     private String title;

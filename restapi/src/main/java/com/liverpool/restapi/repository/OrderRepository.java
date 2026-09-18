@@ -1,13 +1,13 @@
 package com.liverpool.restapi.repository;
 
 
-import domain.Product;
+import domain.Order;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 
 
 @Repository
-public interface ProductRepository extends MongoRepository<Product, Integer> {
+public interface OrderRepository extends MongoRepository<Order, Integer> {
 
 }

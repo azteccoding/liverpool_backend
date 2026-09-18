@@ -8,5 +8,5 @@ public interface CrudService<T> {
     public abstract void update(String id, T t);
     public abstract void delete(String id);
     public abstract Collection<T> getItem();
-    public abstract List<T> getAllProducts();
+    public abstract List<T> getAllOrders();
 }
