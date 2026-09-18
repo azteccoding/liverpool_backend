@@ -51,7 +51,8 @@ public class OrderService implements CrudService<Order> {
                 mapToItemEntities(orderDTO.getProductsList()),
                 orderDTO.getTotal(),
                 orderDTO.getPaymentMethod(),
-                orderDTO.getDispatched()
+                orderDTO.getIsDispatched(),
+                orderDTO.getIsCancelled()
         );
 
         Order saved = repository.save(order);
@@ -74,8 +75,11 @@ public class OrderService implements CrudService<Order> {
         if (orderDTO.getPaymentMethod() != null) {
             order.setPaymentMethod(orderDTO.getPaymentMethod());
         }
-        if (orderDTO.getDispatched() != null) {
-            order.setDispatched(orderDTO.getDispatched());
+        if (orderDTO.getIsDispatched() != null) {
+            order.setIsDispatched(orderDTO.getIsDispatched());
+        }
+        if (orderDTO.getIsCancelled() != null) {
+            order.setIsCancelled(orderDTO.getIsCancelled());
         }
 
         Order updated = repository.save(order);
@@ -90,7 +94,8 @@ public class OrderService implements CrudService<Order> {
         order.setProductsList(mapToItemEntities(orderDTO.getProductsList()));
         order.setTotal(orderDTO.getTotal());
         order.setPaymentMethod(orderDTO.getPaymentMethod());
-        order.setDispatched(orderDTO.getDispatched());
+        order.setIsDispatched(orderDTO.getIsDispatched());
+        order.setIsCancelled(orderDTO.getIsCancelled());
 
         Order updated = repository.save(order);
         return mapToDTO(updated);
@@ -107,10 +112,11 @@ public class OrderService implements CrudService<Order> {
         dto.setProductsList(mapToItemDTOs(order.getProductsList()));
         dto.setTotal(order.getTotal());
         dto.setPaymentMethod(order.getPaymentMethod());
-        dto.setDispatched(order.getDispatched());
+        dto.setIsDispatched(order.getIsDispatched());
+        dto.setIsCancelled(order.getIsCancelled());
         return dto;
     }
-
+    // para guardar en mongo
     private List<OrderItem> mapToItemEntities(List<OrderItemDTO> items) {
         return items.stream()
                 .map(i -> new OrderItem(
@@ -122,7 +128,7 @@ public class OrderService implements CrudService<Order> {
                 ))
                 .collect(Collectors.toList());
     }
-
+    // para devolver el JSON de respuesta exitosa
     private List<OrderItemDTO> mapToItemDTOs(List<OrderItem> items) {
         return items.stream()
                 .map(i -> {

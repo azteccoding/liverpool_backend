@@ -13,5 +13,6 @@ public class OrderDTO {
     private List<OrderItemDTO> productsList;
     private Double total;
     private String paymentMethod;
-    private Boolean dispatched = false;
+    private Boolean isDispatched = false;
+    private Boolean isCancelled = false;
 }

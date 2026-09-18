@@ -21,14 +21,17 @@ public class Order implements Serializable {
     private List<OrderItem> productsList;
     private double total;
     private String paymentMethod;
-    private Boolean dispatched;
+    private Boolean isDispatched;
+    private Boolean isCancelled;
 
-    public Order(int id, String date, List<OrderItem> productsList, double total, String paymentMethod, Boolean dispatched) {
+    public Order(int id, String date, List<OrderItem> productsList,
+                 double total, String paymentMethod, Boolean isDispatched, Boolean isCancelled) {
         this.id = id;
         this.date = date;
         this.productsList = productsList;
         this.total = total;
         this.paymentMethod = paymentMethod;
-        this.dispatched = dispatched;
+        this.isDispatched = isDispatched;
+        this.isCancelled = isCancelled;
     }
 }
