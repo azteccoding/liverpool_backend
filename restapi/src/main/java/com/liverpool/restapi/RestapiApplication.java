@@ -5,9 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class RestapiApplication {
-
 	public static void main(String[] args) {
-		SpringApplication.run(RestapiApplication.class, args);
+		var context = SpringApplication.run(RestapiApplication.class, args);
+		org.springframework.core.env.Environment env = context.getEnvironment();
+		System.out.println(">>> DATABASE ACTUAL: test");
 	}
-
 }
