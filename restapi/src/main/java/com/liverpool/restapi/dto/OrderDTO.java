@@ -13,6 +13,7 @@ public class OrderDTO {
     private List<OrderItemDTO> productsList;
     private Double total;
     private String paymentMethod;
-    private Boolean isDispatched = false;
-    private Boolean isCancelled = false;
+    private String address;
+    private String status = "Procesando";
+    private Integer customerId;
 }

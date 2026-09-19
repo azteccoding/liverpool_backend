@@ -51,8 +51,9 @@ public class OrderService implements CrudService<Order> {
                 mapToItemEntities(orderDTO.getProductsList()),
                 orderDTO.getTotal(),
                 orderDTO.getPaymentMethod(),
-                orderDTO.getIsDispatched(),
-                orderDTO.getIsCancelled()
+                orderDTO.getStatus(),
+                orderDTO.getAddress(),
+                orderDTO.getCustomerId()
         );
 
         Order saved = repository.save(order);
@@ -75,11 +76,14 @@ public class OrderService implements CrudService<Order> {
         if (orderDTO.getPaymentMethod() != null) {
             order.setPaymentMethod(orderDTO.getPaymentMethod());
         }
-        if (orderDTO.getIsDispatched() != null) {
-            order.setIsDispatched(orderDTO.getIsDispatched());
+        if (orderDTO.getAddress() != null) {
+            order.setAddress(orderDTO.getAddress());
         }
-        if (orderDTO.getIsCancelled() != null) {
-            order.setIsCancelled(orderDTO.getIsCancelled());
+        if (orderDTO.getStatus() != null) {
+            order.setStatus(orderDTO.getStatus());
+        }
+        if (orderDTO.getCustomerId() != null) {
+            order.setCustomerId(orderDTO.getCustomerId());
         }
 
         Order updated = repository.save(order);
@@ -94,8 +98,9 @@ public class OrderService implements CrudService<Order> {
         order.setProductsList(mapToItemEntities(orderDTO.getProductsList()));
         order.setTotal(orderDTO.getTotal());
         order.setPaymentMethod(orderDTO.getPaymentMethod());
-        order.setIsDispatched(orderDTO.getIsDispatched());
-        order.setIsCancelled(orderDTO.getIsCancelled());
+        order.setAddress(orderDTO.getAddress());
+        order.setStatus(orderDTO.getStatus());
+        order.setCustomerId(orderDTO.getCustomerId());
 
         Order updated = repository.save(order);
         return mapToDTO(updated);
@@ -112,8 +117,9 @@ public class OrderService implements CrudService<Order> {
         dto.setProductsList(mapToItemDTOs(order.getProductsList()));
         dto.setTotal(order.getTotal());
         dto.setPaymentMethod(order.getPaymentMethod());
-        dto.setIsDispatched(order.getIsDispatched());
-        dto.setIsCancelled(order.getIsCancelled());
+        dto.setAddress(order.getAddress());
+        dto.setStatus(order.getStatus());
+        dto.setCustomerId(order.getCustomerId());
         return dto;
     }
     // para guardar en mongo
